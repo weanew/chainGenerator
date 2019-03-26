@@ -26,4 +26,4 @@ install:
 
 script:
     # скрипт сборки и тестирования проекта:
-    - gcc /chainGenerator.cpp
+    - gcc /main.cpp
