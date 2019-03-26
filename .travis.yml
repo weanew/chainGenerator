@@ -9,22 +9,12 @@ os:
     - linux
 
 compiler:
-    # ... и с помощью G++, и Clang
+    # ... и с помощью G++
     - g++
-    - clang
-
-env:
-    # список переменных окружения, влияющих на матрицу сборки:
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
-
-
 install:
     # скрипт настройки среды и установки зависимостей
     - source ./install-linux.sh
 
 script:
     # скрипт сборки и тестирования проекта:
-    - g++ ./main.cpp
+    - vera++ ./main.cpp
