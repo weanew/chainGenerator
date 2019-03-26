@@ -1,16 +1,15 @@
 dist:     trusty    # используем Ubuntu 14.04 Trusty Tahr (а не 12.02 Precise Pangolin)
-sudo:     required  # используем Virtual Machine (а не Docker container)
 
 language: cpp       # на практике разницы между специфичным для C++ окружением
                     # и, скажем, python -- никакой. Но пусть будет cpp.
 
 os:
-    # будем прогонять CI и на Linux, и на Mac OS X...
+    # будем прогонять CI и на Linux
     - linux
 
 compiler:
-    # ... и с помощью GCC, и Clang
-    - gcc
+    # ... и с помощью G++, и Clang
+    - g++
     - clang
 
 env:
