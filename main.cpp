@@ -225,6 +225,36 @@ vector<string> RightRule, vector<string> LeftRule)
     }
 }
 
+string del_char(string str, int index)
+{
+    string buf = "";
+    for (int i = 0; i < str.length(); i++)
+    {
+        if(i != index)
+        {
+            buf += str[i];
+        }
+    }
+    return buf;
+}
+
+void permutation(string set, vector<string>* perm)
+{
+    if(set.length() != 1)
+    {
+        for(int i = 0; i < set.length(); i++)
+        {
+            string str = del_char(set, i);
+            perm->push_back(str);
+            permutation(str, perm);
+        }  
+    }
+    else
+    {
+        perm->push_back(set);
+    }  
+}
+
 string epsRules()
 {
     string N = "&", P = "";
@@ -254,7 +284,6 @@ string epsRules()
                             LRule.push_back(LeftRule[i]);
                             Rrule.push_back(RightRule[i]);
                         }
-
                     }
                 }
             }
@@ -263,32 +292,64 @@ string epsRules()
 
     vector<string> PLRule, PRrule;
 
-    for (int  i = 0; i < RightRule.size(); i++)
+    for (int i = 0; i < RightRule.size(); i++)
     {
-        for (string n: Rrule)
+        if (RightRule[i] != "&")
         {
-            if (RightRule[i] == n)
-            {
-                break;
-            }
-            else
-            {
-                PLRule.push_back(LeftRule[i]);
-                PRrule.push_back(RightRule[i]);
-            }
+            PLRule.push_back(LeftRule[i]);
+            PRrule.push_back(RightRule[i]);
         }
     }
+    
+    for (int i = 0; i < RightRule.size(); i++)
+    {
+        string entry_matrix = "";
+        vector<int> entry_matrix;
+        for (int j = 0; j < RightRule[i].length(); j++)
+        {
+            for(char n: P)
+            {
+                if(RightRule[i][j] == n)
+                {
+                    entry_matrix.push_back(j);
+                }
+            }
+        }
+        
+        vector<string> permutations, sifted_perm;
+        bool  perm_used [permutations.size()];
+        permutations.push_back(entry_matrix);
+
+        permutation(entry_matrix, &permutations);
+
+        for(int k = 0; k < permutations.size(); k++)
+        {
+            string bufi = permutations[i];
+            int counter = 0;
+            for(int j = 0; j < permutations.size(); j++)
+            {
+                string bufj = permutations[j];
+                if(permutations[k] == permutations[j])
+                {
+                    counter++;
+                    if(counter == 1 && perm_used[j] == false)
+                    {
+                        sifted_perm.push_back(permutations[j]);
+                        perm_used[j] = true;
+                    }
+                    if(counter > 1)
+                    {
+                        perm_used[j] = true;
+                    }  
+                }     
+            }
+        /*there is a need to convert the enty_matrix from string to vector<int>*/
+        }
+    }
+    
+
     return P;
 }
-
-/*
-void ParseChain(string chain)
-{
-    for(string n: RightRule)
-    {
-    }
-}
-*/
 
 int findChains(string chain, string terminal, string nonTerminal)
 {
@@ -366,7 +427,6 @@ int findChains(string chain, string terminal, string nonTerminal)
         entLRules[i].length());
         findChains(bufChain, terminal, nonTerminal);
     }
-
 }
 
 int main(int argc, char* argv[])
@@ -513,10 +573,5 @@ int main(int argc, char* argv[])
 
         cout<<"eps-rules: "<<strr<<endl;
     }
-    /*
-    cout<<"Цепочки без повторений:"<<endl;
-    for(int i = 0; i < finalch.size(); i++)
-        cout<<i+1<<". "<<finalch[i]<<endl;
-    */
     return 0;
 }
