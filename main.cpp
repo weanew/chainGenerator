@@ -230,7 +230,7 @@ string del_char(string str, int index)
     string buf = "";
     for (int i = 0; i < str.length(); i++)
     {
-        if(i != index)
+        if (i != index)
         {
             buf += str[i];
         }
@@ -240,19 +240,19 @@ string del_char(string str, int index)
 
 void permutation(string set, vector<string>* perm)
 {
-    if(set.length() != 1)
+    if (set.length() != 1)
     {
-        for(int i = 0; i < set.length(); i++)
+        for (int i = 0; i < set.length(); i++)
         {
             string str = del_char(set, i);
             perm->push_back(str);
             permutation(str, perm);
-        }  
+        }
     }
     else
     {
         perm->push_back(set);
-    }  
+    }
 }
 
 string epsRules()
@@ -307,9 +307,9 @@ string epsRules()
         vector<int> entry_matrix;
         for (int j = 0; j < RightRule[i].length(); j++)
         {
-            for(char n: P)
+            for (char n: P)
             {
-                if(RightRule[i][j] == n)
+                if (RightRule[i][j] == n)
                 {
                     entry_matrix.push_back(j);
                 }
@@ -322,26 +322,26 @@ string epsRules()
 
         permutation(entry_matrix, &permutations);
 
-        for(int k = 0; k < permutations.size(); k++)
+        for (int k = 0; k < permutations.size(); k++)
         {
             string bufi = permutations[i];
             int counter = 0;
-            for(int j = 0; j < permutations.size(); j++)
+            for (int j = 0; j < permutations.size(); j++)
             {
                 string bufj = permutations[j];
-                if(permutations[k] == permutations[j])
+                if (permutations[k] == permutations[j])
                 {
                     counter++;
-                    if(counter == 1 && perm_used[j] == false)
+                    if (counter == 1 && perm_used[j] == false)
                     {
                         sifted_perm.push_back(permutations[j]);
                         perm_used[j] = true;
                     }
-                    if(counter > 1)
+                    if (counter > 1)
                     {
                         perm_used[j] = true;
-                    }  
-                }     
+                    }
+                }
             }
         /*there is a need to convert the enty_matrix from string to vector<int>*/
         }
